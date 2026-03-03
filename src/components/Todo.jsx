@@ -9,9 +9,9 @@ const Todo = () => {
   const [inputValue, setInputValue] = useState('');
 
   const add = () => {
-    if(inputValue === '') {
-      return;
-  }
+    if(inputValue.trim() === '') {
+      return ;
+    }
     const inputText = inputValue.trim();
     const newTodo = {
       id: Date.now(),
@@ -42,37 +42,44 @@ const Todo = () => {
   }, [todoList])
 
   return (
-    <div className='bg-transparent w-11/12 max-w-md flex flex-col p-7 
-    min-h-137.5 border-solid border-3 border-[#3d3d3d] rounded-2xl'>
+    <div className='border-2 rounded-sm w-full max-w-sm border-[#3d3d3d]'>
 
-      <div className='flex items-center mt-7 gap-2'>
-        <img className='w-8' src={book} alt="Icon" />
-        <h1 className='text-3xl font-semibold '>My To-Do List:</h1>
-      </div>
-
-      <div className='flex items-center my-7 rounded-full  bg-blue-100'>
-        <input value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)} 
-        className='bg-transparent outline-none flex-1 h-14 pl-6 pr-2 placeholder:text-slate-50' 
-        type="text" 
-        placeholder='Add your Task' />
-        <button onClick={add} 
-        className=' w-32 h-14 text-lg font-medium cursor-pointer rounded-full border-solid border-2 border-[#3d3d3d] bg-transparent'>
-          ADD +
-        </button>
+      <div className='border-b-2 border-[#3d3d3d] px-3 py-2 flex items-center gap-2'>
+        <img className='w-5 h-5' src={book} alt="Icon" />
+        <h1 className='text-3xl font-extrabold text-[#5f9ea0] '>To-Do List:</h1>
       </div>
 
       <div>
+
+        {todoList.length === 0 && (
+          <p className="text-center text-gray-500 text-sm py-10 font-semibold ">Nenhuma tarefa adicionada!</p>
+        )}
+
         {todoList.map((item) => {
-            return <TodoItems key={item.id} 
+            return <TodoItems 
+            key={item.id} 
+            id={item.id}
             text={item.text} 
             isCompleted={item.isCompleted} 
             deleteTodo={deleteItem} 
             toggleComplete={toggleComplete}
-            id={item.id}
             />
         })}
       </div>
+
+      <div className='flex items-center my-7 gap-3 p-3'>
+        <input value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)} 
+        className='bg-white outline-none flex-1 h-14 pl-6 pr-2 placeholder:text-gray-300 rounded-sm border-2 border-[#3d3d3d]' 
+        type="text" 
+        placeholder='Escreva uma Tarefa' />
+
+        <button onClick={add} 
+        className=' w-32 h-14 text-lg font-extrabold cursor-pointer rounded-sm border-solid border-2 border-[#3d3d3d] bg-[#5f9ea0] text-white'>
+          ADD +
+        </button>
+      </div>
+      
         
     </div>
   )
